@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:self_chat/data/model/chatroom.dart';
 import 'package:self_chat/data/model/message.dart';
 import 'package:self_chat/data/model/persona.dart';
 
 class ChatroomScreen extends StatefulWidget {
   const ChatroomScreen(
-      {super.key, required this.roomName, required this.activePersona});
+      {super.key, required this.chatroom, required this.activePersona});
 
-  final String roomName;
+  final Chatroom chatroom;
   final Persona activePersona;
 
   @override
@@ -39,7 +40,7 @@ class _ChatroomScreenState extends State<ChatroomScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text(widget.roomName),
+          title: Text(widget.chatroom.name),
         ),
         body: SafeArea(
             child: Padding(
