@@ -3,7 +3,7 @@ import 'package:self_chat/data/model/chatroom.dart';
 import 'package:self_chat/data/model/persona.dart';
 import 'package:self_chat/data/repository/chatroom_repository.dart';
 import 'package:self_chat/data/repository/persona_repository.dart';
-import 'package:self_chat/presentation/pages/chatroom.dart';
+import 'package:self_chat/presentation/pages/single_chatroom.dart';
 
 void main() {
   runApp(const MainApp());
@@ -44,12 +44,19 @@ class _MainAppState extends State<MainApp> {
     ]);
   }
 
+  void onPersonaChanged(Persona newPersona) {
+    setState(() {
+      activePersona = newPersona;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: ChatroomScreen(
+      home: SingleChatroomScreen(
           chatroom: chatroomRepository.getChatrooms()[0],
-          activePersona: activePersona),
+          activePersona: activePersona,
+          onPersonaChanged: onPersonaChanged),
     );
   }
 }
