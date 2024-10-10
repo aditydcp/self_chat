@@ -1,18 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:self_chat/domain/entities/message.dart';
 
-class MessageModel {
-  final String id;
-  final String chatroomId;
-  final String personaId;
-  final DateTime timestamp;
-  final String content;
-
+class MessageModel extends Message {
   MessageModel({
-    required this.id,
-    required this.chatroomId,
-    required this.personaId,
-    required this.timestamp,
-    required this.content,
+    required super.id,
+    required super.chatroomId,
+    required super.personaId,
+    required super.timestamp,
+    required super.content,
   });
 
   factory MessageModel.fromFirestore(DocumentSnapshot doc) {

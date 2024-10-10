@@ -1,12 +1,12 @@
 import 'package:self_chat/data/datasources/message/message_remote_data_source.dart';
 import 'package:self_chat/domain/entities/message.dart';
-import 'package:self_chat/domain/repositories/message_repository.dart';
+import 'package:self_chat/domain/repositories/message_repository_interface.dart';
 import 'package:self_chat/data/models/message_model.dart';
 
-class MessageRepositoryImpl implements MessageRepository {
+class MessageRepository implements MessageRepositoryInterface {
   final MessageRemoteDataSource dataSource;
 
-  MessageRepositoryImpl(this.dataSource);
+  MessageRepository(this.dataSource);
 
   @override
   Stream<List<Message>> fetchMessages(String chatroomId) {
