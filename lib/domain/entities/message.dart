@@ -12,4 +12,9 @@ class Message {
     required this.timestamp,
     required this.content,
   });
+
+  @override
+  String toString() {
+    return 'Sender: $personaId\nChatroom: $chatroomId\nContent: $content\nTimestamp: $timestamp';
+  }
 }
