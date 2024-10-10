@@ -1,5 +1,5 @@
 import 'package:self_chat/domain/entities/message.dart';
-import 'package:self_chat/domain/repositories/message_repository.dart';
+import 'package:self_chat/domain/repositories/message_repository_interface.dart';
 
 class FetchMessages {
   final MessageRepositoryInterface repository;
