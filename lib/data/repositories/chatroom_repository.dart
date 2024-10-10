@@ -1,4 +1,4 @@
-import 'package:self_chat/data/model/chatroom.dart';
+import 'package:self_chat/data/models/chatroom.dart';
 
 class ChatroomRepository {
   final List<Chatroom> chatrooms;

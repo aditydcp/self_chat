@@ -1,4 +1,4 @@
-import 'package:self_chat/data/model/persona.dart';
+import 'package:self_chat/data/models/persona.dart';
 
 class PersonaRepository {
   final List<Persona> personas;

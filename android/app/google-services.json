@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "115260365576",
+    "project_id": "self-chat-6086d",
+    "storage_bucket": "self-chat-6086d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:115260365576:android:5ae1049243dd560814eabd",
+        "android_client_info": {
+          "package_name": "com.example.self_chat"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCZdN6a-w6Xxkb3Eri38ybPTv3-xv0NHJ8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
