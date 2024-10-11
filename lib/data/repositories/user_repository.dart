@@ -9,10 +9,10 @@ class UserRepository implements UserRepositoryInterface {
   UserRepository(this.dataSource);
 
   @override
-  Future<void> createUser(User user) async {
+  Future<void> addUser(User user) async {
     final userModel =
         UserModel(id: user.id, email: user.email, username: user.username);
-    await dataSource.createUser(userModel);
+    await dataSource.addUser(userModel);
   }
 
   @override

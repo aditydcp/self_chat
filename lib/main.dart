@@ -1,18 +1,24 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:self_chat/data/datasources/auth/auth_data_source_firebase.dart';
 import 'package:self_chat/data/datasources/message/message_data_source_firestore.dart';
 import 'package:self_chat/data/datasources/user/user_data_source_firestore.dart';
+import 'package:self_chat/data/repositories/auth_repository.dart';
 import 'package:self_chat/data/repositories/message_repository.dart';
 import 'package:self_chat/data/repositories/user_repository.dart';
+import 'package:self_chat/domain/usecases/auth/sign_in_user.dart';
+import 'package:self_chat/domain/usecases/auth/sign_out_user.dart';
+import 'package:self_chat/domain/usecases/auth/sign_up_user.dart';
 import 'package:self_chat/domain/usecases/message/add_message.dart';
 import 'package:self_chat/domain/usecases/message/fetch_messages.dart';
 import 'package:self_chat/domain/usecases/user/fetch_user.dart';
-import 'package:self_chat/domain/usecases/user/sign_up_user.dart';
+import 'package:self_chat/domain/usecases/user/add_user.dart';
 import 'package:self_chat/firebase_options.dart';
+import 'package:self_chat/presentation/screens/auth_screen.dart';
 import 'package:self_chat/presentation/viewmodels/chatroom_viewmodel.dart';
-import 'package:self_chat/presentation/screens/chatroom_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -27,19 +33,28 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     // Initialize database
     final db = FirebaseFirestore.instance;
+    final auth = FirebaseAuth.instance;
 
     // Initialize datasources
+    final authDataSourceFirebase = AuthDataSourceFirebase(auth);
+
     final messageDataSource = MessageDataSourceFirestore(db);
     final userDataSource = UserDataSourceFirestore(db);
 
     // Initialize your repositories and use cases here
+    final authRepository = AuthRepository(authDataSourceFirebase);
+
+    final signInUser = SignInUser(authRepository);
+    final signUpUser = SignUpUser(authRepository);
+    final signOutUser = SignOutUser(authRepository);
+
     final messageRepository = MessageRepository(messageDataSource);
     final userRepository = UserRepository(userDataSource);
 
     final fetchMessages = FetchMessages(messageRepository);
     final addMessage = AddMessage(messageRepository);
 
-    final signUpUser = SignUpUser(userRepository);
+    final addUser = AddUser(userRepository);
     final fetchUser = FetchUser(userRepository);
 
     return MultiProvider(
@@ -52,15 +67,15 @@ class MainApp extends StatelessWidget {
         ),
       ],
       child: MaterialApp(
-        title: 'Self Chat App',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
-        home: const ChatroomScreen(
-          chatroomId: '1', // Example chatroom ID
-          personaId: '123', // Example persona ID
-        ),
-      ),
+          title: 'Self Chat App',
+          theme: ThemeData(
+            primarySwatch: Colors.blue,
+          ),
+          home: AuthScreen(
+            signInUser: signInUser,
+            signUpUser: signUpUser,
+            addUser: addUser,
+          )),
     );
   }
 }

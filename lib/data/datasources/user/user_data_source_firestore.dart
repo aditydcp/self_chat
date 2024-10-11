@@ -8,7 +8,7 @@ class UserDataSourceFirestore extends UserRemoteDataSource {
   UserDataSourceFirestore(this.firestore);
 
   @override
-  Future<void> createUser(UserModel user) async {
+  Future<void> addUser(UserModel user) async {
     await firestore.collection('users').doc(user.id).set(user.toJson());
   }
 

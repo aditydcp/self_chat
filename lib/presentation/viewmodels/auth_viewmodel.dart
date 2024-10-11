@@ -1,22 +1,36 @@
-import 'package:flutter/material.dart';
-import 'package:self_chat/domain/entities/user.dart';
-import 'package:self_chat/domain/usecases/user/fetch_user.dart';
-import 'package:self_chat/domain/usecases/user/sign_up_user.dart';
+import 'package:flutter/foundation.dart';
+import 'package:self_chat/domain/usecases/auth/sign_in_user.dart';
+import 'package:self_chat/domain/usecases/auth/sign_out_user.dart';
+import 'package:self_chat/domain/usecases/auth/sign_up_user.dart';
 
-class UserViewModel extends ChangeNotifier {
-  final FetchUser fetchUser;
+class AuthViewmodel extends ChangeNotifier {
   final SignUpUser signUpUser;
+  final SignInUser signInUser;
+  final SignOutUser signOutUser;
 
-  User? user;
+  AuthViewmodel(
+      {required this.signUpUser,
+      required this.signInUser,
+      required this.signOutUser});
 
-  UserViewModel({required this.fetchUser, required this.signUpUser});
-
-  Future<void> loadUser(String userId) async {
-    user = await fetchUser(userId);
-    notifyListeners();
+  Future<void> signUp(String email, String password) async {
+    if (kDebugMode) {
+      print('Signing up with email: $email and password: $password');
+    }
+    await signUpUser(email, password);
   }
 
-  Future<void> signUp(User user) async {
-    await signUpUser(user);
+  Future<void> signIn(String email, String password) async {
+    if (kDebugMode) {
+      print('Signing in with email: $email and password: $password');
+    }
+    await signInUser(email, password);
+  }
+
+  Future<void> signOut() async {
+    if (kDebugMode) {
+      print('Signing out');
+    }
+    await signOutUser();
   }
 }
