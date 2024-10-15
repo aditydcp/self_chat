@@ -2,19 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:self_chat/domain/entities/message.dart';
 import 'package:self_chat/domain/usecases/auth/sign_out_user.dart';
+import 'package:self_chat/presentation/viewmodels/auth_viewmodel.dart';
 import 'package:self_chat/presentation/viewmodels/chatroom_viewmodel.dart';
 import 'package:self_chat/presentation/widgets/message_widget.dart';
 
 class ChatroomScreen extends StatefulWidget {
   final String chatroomId;
   final String personaId;
-  final SignOutUser signOutUser;
 
   const ChatroomScreen({
     super.key,
     required this.chatroomId,
     required this.personaId,
-    required this.signOutUser,
   });
 
   @override
@@ -49,6 +48,11 @@ class _ChatroomScreenState extends State<ChatroomScreen> {
     _messageController.clear(); // Clear input after sending
   }
 
+  Future<void> _signOut() async {
+    final authViewModel = Provider.of<AuthViewModel>(context, listen: false);
+    await authViewModel.signOut();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,9 +60,7 @@ class _ChatroomScreenState extends State<ChatroomScreen> {
         title: const Text('Chatroom'),
         actions: [
           IconButton(
-            onPressed: () async {
-              await widget.signOutUser();
-            },
+            onPressed: _signOut,
             icon: const Icon(Icons.logout),
           )
         ],

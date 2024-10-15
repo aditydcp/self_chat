@@ -1,21 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:self_chat/domain/usecases/auth/sign_in_user.dart';
-import 'package:self_chat/domain/usecases/auth/sign_up_user.dart';
-import 'package:self_chat/domain/usecases/user/add_user.dart';
 import 'package:self_chat/presentation/screens/auth/sign_in_screen.dart';
 import 'package:self_chat/presentation/screens/auth/sign_up_screen.dart';
 
 class AuthScreen extends StatefulWidget {
-  final SignInUser signInUser;
-  final SignUpUser signUpUser;
-  final AddUser addUser;
-
-  const AuthScreen({
-    super.key,
-    required this.signInUser,
-    required this.signUpUser,
-    required this.addUser,
-  });
+  const AuthScreen({super.key});
 
   @override
   State<AuthScreen> createState() => _AuthScreenState();
@@ -37,10 +25,7 @@ class _AuthScreenState extends State<AuthScreen> {
         title: Text(_isLogin ? 'Login' : 'Sign Up'),
       ),
       body: Center(
-        child: _isLogin
-            ? SignInScreen(signInUser: widget.signInUser)
-            : SignUpScreen(
-                signUpUser: widget.signUpUser, addUser: widget.addUser),
+        child: _isLogin ? const SignInScreen() : const SignUpScreen(),
       ),
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.all(16.0),

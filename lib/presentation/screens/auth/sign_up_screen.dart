@@ -1,14 +1,11 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:self_chat/domain/usecases/auth/sign_up_user.dart';
-import 'package:self_chat/domain/usecases/user/add_user.dart';
+import 'package:provider/provider.dart';
+import 'package:self_chat/presentation/viewmodels/auth_viewmodel.dart';
+import 'package:self_chat/presentation/viewmodels/user_viewmodel.dart';
 
 class SignUpScreen extends StatefulWidget {
-  final SignUpUser signUpUser;
-  final AddUser addUser;
-
-  const SignUpScreen(
-      {super.key, required this.signUpUser, required this.addUser});
+  const SignUpScreen({super.key});
 
   @override
   _SignUpScreenState createState() => _SignUpScreenState();
@@ -20,13 +17,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
   String? _errorMessage;
 
   Future<void> _signUp() async {
+    final authViewModel = Provider.of<AuthViewModel>(context, listen: false);
+    final userViewModel = Provider.of<UserViewModel>(context, listen: false);
     try {
-      final user = await widget.signUpUser(
+      final user = await authViewModel.signUpUser(
         _emailController.text.trim(),
         _passwordController.text.trim(),
       );
       if (user != null) {
-        await widget.addUser(user);
+        await userViewModel.addUser(user);
       } else {
         if (kDebugMode) {
           print('Failed to login');

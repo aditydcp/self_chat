@@ -19,7 +19,9 @@ import 'package:self_chat/domain/usecases/user/add_user.dart';
 import 'package:self_chat/firebase_options.dart';
 import 'package:self_chat/presentation/screens/auth_screen.dart';
 import 'package:self_chat/presentation/screens/chatroom_screen.dart';
+import 'package:self_chat/presentation/viewmodels/auth_viewmodel.dart';
 import 'package:self_chat/presentation/viewmodels/chatroom_viewmodel.dart';
+import 'package:self_chat/presentation/viewmodels/user_viewmodel.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -66,6 +68,19 @@ class MainApp extends StatelessWidget {
             addMessage: addMessage,
           ),
         ),
+        ChangeNotifierProvider(
+          create: (_) => AuthViewModel(
+            signUpUser: signUpUser,
+            signInUser: signInUser,
+            signOutUser: signOutUser,
+          ),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => UserViewModel(
+            fetchUser: fetchUser,
+            addUser: addUser,
+          ),
+        ),
       ],
       child: MaterialApp(
           title: 'Self Chat App',
@@ -78,16 +93,11 @@ class MainApp extends StatelessWidget {
                 if (snapshot.connectionState == ConnectionState.active) {
                   User? user = snapshot.data;
                   if (user == null) {
-                    return AuthScreen(
-                      signInUser: signInUser,
-                      signUpUser: signUpUser,
-                      addUser: addUser,
-                    );
+                    return const AuthScreen();
                   } else {
-                    return ChatroomScreen(
+                    return const ChatroomScreen(
                       chatroomId: '1',
                       personaId: '123',
-                      signOutUser: signOutUser,
                     );
                   }
                 }

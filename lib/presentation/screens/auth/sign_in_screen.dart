@@ -1,11 +1,10 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:self_chat/domain/usecases/auth/sign_in_user.dart';
+import 'package:provider/provider.dart';
+import 'package:self_chat/presentation/viewmodels/auth_viewmodel.dart';
 
 class SignInScreen extends StatefulWidget {
-  final SignInUser signInUser; // Injecting the use case
-
-  const SignInScreen({super.key, required this.signInUser});
+  const SignInScreen({super.key});
 
   @override
   _SignInScreenState createState() => _SignInScreenState();
@@ -17,8 +16,9 @@ class _SignInScreenState extends State<SignInScreen> {
   String? _errorMessage;
 
   Future<void> _login() async {
+    final authViewModel = Provider.of<AuthViewModel>(context, listen: false);
     try {
-      final user = await widget.signInUser(
+      final user = await authViewModel.signInUser(
         _emailController.text.trim(),
         _passwordController.text.trim(),
       );
