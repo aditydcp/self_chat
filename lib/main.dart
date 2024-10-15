@@ -18,6 +18,7 @@ import 'package:self_chat/domain/usecases/user/fetch_user.dart';
 import 'package:self_chat/domain/usecases/user/add_user.dart';
 import 'package:self_chat/firebase_options.dart';
 import 'package:self_chat/presentation/screens/auth_screen.dart';
+import 'package:self_chat/presentation/screens/chatroom_screen.dart';
 import 'package:self_chat/presentation/viewmodels/chatroom_viewmodel.dart';
 
 void main() async {
@@ -71,11 +72,28 @@ class MainApp extends StatelessWidget {
           theme: ThemeData(
             primarySwatch: Colors.blue,
           ),
-          home: AuthScreen(
-            signInUser: signInUser,
-            signUpUser: signUpUser,
-            addUser: addUser,
-          )),
+          home: StreamBuilder<User?>(
+              stream: auth.authStateChanges(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.active) {
+                  User? user = snapshot.data;
+                  if (user == null) {
+                    return AuthScreen(
+                      signInUser: signInUser,
+                      signUpUser: signUpUser,
+                      addUser: addUser,
+                    );
+                  } else {
+                    return ChatroomScreen(
+                      chatroomId: '1',
+                      personaId: '123',
+                      signOutUser: signOutUser,
+                    );
+                  }
+                }
+
+                return const Center(child: CircularProgressIndicator());
+              })),
     );
   }
 }

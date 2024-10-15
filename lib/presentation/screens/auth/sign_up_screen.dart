@@ -32,7 +32,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
           print('Failed to login');
         }
       }
-      // Handle success (e.g., navigate to login or home screen)
     } catch (e) {
       setState(() {
         _errorMessage = e.toString();
@@ -42,33 +41,28 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Sign Up'),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            TextField(
-              controller: _emailController,
-              decoration: const InputDecoration(labelText: 'Email'),
-              keyboardType: TextInputType.emailAddress,
-            ),
-            TextField(
-              controller: _passwordController,
-              decoration: const InputDecoration(labelText: 'Password'),
-              obscureText: true,
-            ),
-            if (_errorMessage != null)
-              Text(_errorMessage!, style: const TextStyle(color: Colors.red)),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: _signUp,
-              child: const Text('Sign Up'),
-            ),
-          ],
-        ),
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        children: [
+          TextField(
+            controller: _emailController,
+            decoration: const InputDecoration(labelText: 'Email'),
+            keyboardType: TextInputType.emailAddress,
+          ),
+          TextField(
+            controller: _passwordController,
+            decoration: const InputDecoration(labelText: 'Password'),
+            obscureText: true,
+          ),
+          if (_errorMessage != null)
+            Text(_errorMessage!, style: const TextStyle(color: Colors.red)),
+          const SizedBox(height: 20),
+          ElevatedButton(
+            onPressed: _signUp,
+            child: const Text('Sign Up'),
+          ),
+        ],
       ),
     );
   }

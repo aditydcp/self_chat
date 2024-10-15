@@ -21,9 +21,10 @@ class AuthDataSourceFirebase extends AuthRemoteDataSource {
       if (user != null) {
         // Map FirebaseAuth.User as UserModel
         return UserModel(
-            id: user.uid,
-            email: user.email!,
-            username: user.displayName ?? user.email!);
+          id: user.uid,
+          email: user.email!,
+          username: user.displayName ?? user.email!,
+        );
       } else {
         return null;
       }
@@ -45,17 +46,18 @@ class AuthDataSourceFirebase extends AuthRemoteDataSource {
       if (user != null) {
         // Map FirebaseAuth.User as UserModel
         return UserModel(
-            id: user.uid,
-            email: user.email!,
-            username: user.displayName ?? user.email!);
-      } else {
-        return null;
+          id: user.uid,
+          email: user.email!,
+          username: user.displayName ?? user.email!,
+        );
       }
+      return null;
     } on FirebaseAuthException catch (e) {
       if (kDebugMode) {
         print(e.message);
       }
     }
+    return null;
   }
 
   @override

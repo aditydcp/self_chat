@@ -1,15 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:self_chat/domain/entities/message.dart';
+import 'package:self_chat/domain/usecases/auth/sign_out_user.dart';
 import 'package:self_chat/presentation/viewmodels/chatroom_viewmodel.dart';
 import 'package:self_chat/presentation/widgets/message_widget.dart';
 
 class ChatroomScreen extends StatefulWidget {
   final String chatroomId;
   final String personaId;
+  final SignOutUser signOutUser;
 
-  const ChatroomScreen(
-      {super.key, required this.chatroomId, required this.personaId});
+  const ChatroomScreen({
+    super.key,
+    required this.chatroomId,
+    required this.personaId,
+    required this.signOutUser,
+  });
 
   @override
   _ChatroomScreenState createState() => _ChatroomScreenState();
@@ -48,6 +54,14 @@ class _ChatroomScreenState extends State<ChatroomScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Chatroom'),
+        actions: [
+          IconButton(
+            onPressed: () async {
+              await widget.signOutUser();
+            },
+            icon: const Icon(Icons.logout),
+          )
+        ],
       ),
       body: Column(
         children: [

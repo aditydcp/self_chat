@@ -5,7 +5,7 @@ import 'package:self_chat/domain/usecases/user/add_user.dart';
 import 'package:self_chat/presentation/screens/auth/sign_in_screen.dart';
 import 'package:self_chat/presentation/screens/auth/sign_up_screen.dart';
 
-class AuthScreen extends StatelessWidget {
+class AuthScreen extends StatefulWidget {
   final SignInUser signInUser;
   final SignUpUser signUpUser;
   final AddUser addUser;
@@ -18,37 +18,41 @@ class AuthScreen extends StatelessWidget {
   });
 
   @override
+  State<AuthScreen> createState() => _AuthScreenState();
+}
+
+class _AuthScreenState extends State<AuthScreen> {
+  bool _isLogin = true;
+
+  void _toggleAuthMode() {
+    setState(() {
+      _isLogin = !_isLogin;
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Authentication'),
+        title: Text(_isLogin ? 'Login' : 'Sign Up'),
       ),
       body: Center(
-        child: Column(
+        child: _isLogin
+            ? SignInScreen(signInUser: widget.signInUser)
+            : SignUpScreen(
+                signUpUser: widget.signUpUser, addUser: widget.addUser),
+      ),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => SignInScreen(signInUser: signInUser),
-                  ),
-                );
-              },
-              child: const Text('Login'),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) =>
-                        SignUpScreen(signUpUser: signUpUser, addUser: addUser),
-                  ),
-                );
-              },
-              child: const Text('Sign Up'),
+            Text(_isLogin
+                ? "Don't have an account?"
+                : "Already have an account?"),
+            TextButton(
+              onPressed: _toggleAuthMode,
+              child: Text(_isLogin ? 'Sign Up' : 'Login'),
             ),
           ],
         ),

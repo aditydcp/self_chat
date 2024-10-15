@@ -3,15 +3,16 @@ import 'package:self_chat/domain/usecases/auth/sign_in_user.dart';
 import 'package:self_chat/domain/usecases/auth/sign_out_user.dart';
 import 'package:self_chat/domain/usecases/auth/sign_up_user.dart';
 
-class AuthViewmodel extends ChangeNotifier {
+class AuthViewModel extends ChangeNotifier {
   final SignUpUser signUpUser;
   final SignInUser signInUser;
   final SignOutUser signOutUser;
 
-  AuthViewmodel(
-      {required this.signUpUser,
-      required this.signInUser,
-      required this.signOutUser});
+  AuthViewModel({
+    required this.signUpUser,
+    required this.signInUser,
+    required this.signOutUser,
+  });
 
   Future<void> signUp(String email, String password) async {
     if (kDebugMode) {
